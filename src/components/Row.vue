@@ -1,5 +1,11 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineProps, defineEmits, watchEffect } from "vue";
+
+const props = defineProps({
+  currentRow: Boolean,
+});
+
+const emits = defineEmits(["next-row"]);
 
 const inputs = ref([null, null, null, null, null]);
 
@@ -28,6 +34,7 @@ const handleInput = (e) => {
   if (e.target.value.length === 1) {
     if (index === inputs.value.length - 1) {
       checkWord();
+      emits("next-row");
     } else {
       inputs.value[index + 1].focus();
     }
@@ -37,9 +44,11 @@ const handleInput = (e) => {
 };
 
 onMounted(() => {
-  if (inputs.value[0]) {
-    inputs.value[0].focus();
-  }
+  watchEffect(() => {
+    if (props.currentRow && inputs.value[0]) {
+      inputs.value[0].focus();
+    }
+  });
 });
 
 const inputCount = word.length;
@@ -68,6 +77,7 @@ input[type="text"] {
   background-color: #3a3a3c;
   border: none;
   margin-right: 5px;
+  margin-bottom: 10px;
 }
 
 input[type="text"].wrong-position {

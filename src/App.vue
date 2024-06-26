@@ -1,9 +1,9 @@
 <script setup>
-import Wordle from './components/Wordle.vue'
+import Game from './components/Game.vue'
 </script>
 
 <template>
-  <Wordle />
+  <Game />
 </template>
 
 <style scoped>
