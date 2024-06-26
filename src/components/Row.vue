@@ -12,7 +12,7 @@ const lastFocusedInput = ref(null); // Define lastFocusedInput here
 const isInputHandling = ref(false); // Flag to indicate input handling operation
 
 
-const word = ["h", "e", "l", "l", "o"];
+const word = ["b", "e", "a", "r", "d"];
 const letterStates = ref(new Array(word.length).fill("")); // Initialize with empty states
 
 const checkWord = () => {
@@ -97,14 +97,17 @@ const inputCount = word.length;
 
 <style scoped>
 input[type="text"] {
-  width: 50px; /* Makes the input square in shape */
-  height: 50px;
+  width: 60px; /* Makes the input square in shape */
+  height: 60px;
   text-align: center; /* Centers the text */
   background-color: #3a3a3c;
   border: none;
   margin-right: 5px;
   margin-bottom: 10px;
   caret-color: transparent; /* Makes the caret invisible */
+  text-transform: uppercase; /* Automatically capitalize letters */
+  font-family: "Libre Franklin", sans-serif;
+  font-size: 24px;
 }
 
 input[type="text"].wrong-position {
