@@ -8,6 +8,9 @@ const props = defineProps({
 const emits = defineEmits(["next-row"]);
 
 const inputs = ref([null, null, null, null, null]);
+const lastFocusedInput = ref(null); // Define lastFocusedInput here
+const isInputHandling = ref(false); // Flag to indicate input handling operation
+
 
 const word = ["h", "e", "l", "l", "o"];
 const letterStates = ref(new Array(word.length).fill("")); // Initialize with empty states
@@ -24,22 +27,43 @@ const checkWord = () => {
 };
 
 const handleInput = (e) => {
+  isInputHandling.value = true; // Indicate input handling starts
+
   if (!e.key.match(/^[a-zA-Z]$/) && e.key !== "Backspace") {
     e.preventDefault();
+    isInputHandling.value = false; // Reset flag if input is prevented
     return;
   }
 
-  console.log(e.target.value.length);
   const index = inputs.value.findIndex((input) => input === e.target);
   if (e.target.value.length === 1) {
     if (index === inputs.value.length - 1) {
+      isInputHandling.value = true; // Reset flag if input is prevented
+      console.log(isInputHandling.value)
       checkWord();
+      console.log(isInputHandling.value)
       emits("next-row");
     } else {
       inputs.value[index + 1].focus();
     }
-  } else {
+  } else if (index > 0) {
     inputs.value[index - 1].focus();
+  }
+
+  setTimeout(() => {
+  isInputHandling.value = false; // Reset flag after handling input
+}, 0);};
+
+const handleFocus = (e) => {
+  lastFocusedInput.value = e.target; // Update last focused input on focus
+};
+
+const handleBlur = () => {
+  console.log(isInputHandling.value)
+  if (!isInputHandling.value) { // Only refocus if not handling input
+    console.log(isInputHandling.value)
+    console.log('refocus')
+    lastFocusedInput.value?.focus();
   }
 };
 
@@ -62,6 +86,8 @@ const inputCount = word.length;
       type="text"
       maxlength="1"
       @keyup="handleInput"
+      @focus="handleFocus"
+      @blur="handleBlur"
       :ref="(el) => (inputs[index - 1] = el)"
       :class="letterStates[index - 1]"
       :aria-label="`Letter ${index}`"
@@ -78,6 +104,7 @@ input[type="text"] {
   border: none;
   margin-right: 5px;
   margin-bottom: 10px;
+  caret-color: transparent; /* Makes the caret invisible */
 }
 
 input[type="text"].wrong-position {
