@@ -1,10 +1,10 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Wordle from './components/Wordle.vue'
 </script>
 
 <template>
-  <HelloWorld />
+  <Wordle />
 </template>
 
 <style scoped>
-</style>./components/Wordle.vue
+</style>

@@ -5,6 +5,15 @@ const inputs = ref([null, null, null, null, null]);
 
 const woord = ['h', 'e', 'l', 'l', 'o'];
 
+const checkWord = () => {
+  const inputValues = inputs.value.map(input => input.value);
+  if (inputValues.join('') === woord.join('')) {
+    alert('You guessed the word!');
+  } else {
+    alert('Try again!');
+  }
+};
+
 const logCharCount = (e) => {
   if (!e.key.match(/^[a-zA-Z]$/) && e.key !== 'Backspace') {
     e.preventDefault();
@@ -14,7 +23,11 @@ const logCharCount = (e) => {
   console.log(e.target.value.length);
   const index = inputs.value.findIndex(input => input === e.target);
   if (e.target.value.length === 1) {
-    inputs.value[index + 1].focus();
+    if (index === inputs.value.length - 1) {
+      checkWord();
+    } else {
+      inputs.value[index + 1].focus();
+    }
   } else {
     inputs.value[index - 1].focus();
   }
