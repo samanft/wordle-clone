@@ -48,6 +48,7 @@ const handleInput = (e) => {
     }
   } else if (index > 0) {
     inputs.value[index - 1].focus();
+    inputs.value[index - 1].value = "";
   }
 
   setTimeout(() => {
@@ -108,6 +109,7 @@ input[type="text"] {
   text-transform: uppercase; /* Automatically capitalize letters */
   font-family: "Libre Franklin", sans-serif;
   font-size: 24px;
+  outline: none;
 }
 
 input[type="text"].wrong-position {
