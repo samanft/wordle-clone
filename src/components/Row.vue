@@ -19,7 +19,6 @@ const letterStates = ref(new Array(word.length).fill("")); // Initialize with em
 
 const checkWord = () => {
   const inputValues = inputs.value.map((input) => input.value.toLowerCase());
-  console.log(word.value)
   for (let i = 0; i < inputValues.length; i++) {
     if (inputValues[i] === word.value[i].toLowerCase()) {
       letterStates.value[i] = "correct";
@@ -29,6 +28,8 @@ const checkWord = () => {
       letterStates.value[i] = "incorrect";
     }
   }
+  isInputHandling.value = true;
+  emits("next-row");
 };
 
 const handleBackspace = (e) => {
@@ -46,7 +47,15 @@ const handleBackspace = (e) => {
     setTimeout(() => {
     isInputHandling.value = false; // Reset flag after handling input
   }, 0);
+  } else if (e.key === "Enter") {
+    if (inputs.value[inputs.value.length - 1].value === "") {
+      // Prevent submitting the row if the last input is empty
+      return;
+    } else {
+    checkWord();
+    
   }
+}
 };
 const handleInput = (e) => {
   isInputHandling.value = true; // Indicate input handling starts
@@ -66,9 +75,9 @@ const handleInput = (e) => {
       // Focus the next input if the current one is filled
       inputs.value[index + 1].focus();
     } else if (index === inputs.value.length - 1) {
-      // Last input filled, trigger word check
-      checkWord();
-      emits("next-row");
+      // // Last input filled, trigger word check
+      // checkWord();
+      // emits("next-row");
     }
   } else if (e.target.value.length === 0 && index > 0) {
     // If the input is cleared, focus the previous input
@@ -85,19 +94,14 @@ const handleFocus = (e) => {
 };
 
 const handleBlur = () => {
-  console.log(isInputHandling.value);
   if (!isInputHandling.value) {
     // Only refocus if not handling input
-    console.log(isInputHandling.value);
-    console.log("refocus");
     lastFocusedInput.value?.focus();
   }
 };
 
 onMounted( () => {
   watchEffect(() => {
-    console.log(props.word); // This will log the word prop whenever it changes
-    console.log('ahllo')
     if (props.currentRow && inputs.value[0]) {
       inputs.value[0].focus();
     }
