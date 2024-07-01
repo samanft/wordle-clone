@@ -22,6 +22,8 @@ const checkWord = () => {
       letterStates.value[i] = "correct";
     } else if (word.includes(inputValues[i])) {
       letterStates.value[i] = "wrong-position";
+    } else {
+      letterStates.value[i] = "incorrect";
     }
   }
 };
@@ -101,8 +103,8 @@ input[type="text"] {
   width: 60px; /* Makes the input square in shape */
   height: 60px;
   text-align: center; /* Centers the text */
-  background-color: #3a3a3c;
-  border: none;
+  background-color: transparent;
+  border: 2px solid #3a3a3c;
   margin-right: 5px;
   margin-bottom: 10px;
   caret-color: transparent; /* Makes the caret invisible */
@@ -110,6 +112,10 @@ input[type="text"] {
   font-family: "Libre Franklin", sans-serif;
   font-size: 24px;
   outline: none;
+}
+
+input[type="text"].incorrect {
+  background-color: #3a3a3c;
 }
 
 input[type="text"].wrong-position {

@@ -1,10 +1,11 @@
-<script setup>
+<!-- <script setup>
 import Game from "./components/Game.vue";
-</script>
+import Options from "./components/Options.vue";
+</script> -->
 
 <template>
   <div>
-    <Game />
+    <RouterView />
   </div>
 </template>
 
