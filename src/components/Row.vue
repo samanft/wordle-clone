@@ -1,9 +1,16 @@
 <script setup>
-import { ref, onMounted, defineProps, defineEmits, watchEffect, computed } from "vue";
+import {
+  ref,
+  onMounted,
+  defineProps,
+  defineEmits,
+  watchEffect,
+  computed,
+} from "vue";
 
 const props = defineProps({
   currentRow: Boolean,
-  word: Array
+  word: Array,
 });
 
 const word = computed(() => props.word);
@@ -13,7 +20,6 @@ const emits = defineEmits(["next-row"]);
 const inputs = ref([null, null, null, null, null]);
 const lastFocusedInput = ref(null); // Define lastFocusedInput here
 const isInputHandling = ref(false); // Flag to indicate input handling operation
-
 
 const letterStates = ref(new Array(word.length).fill("")); // Initialize with empty states
 
@@ -45,17 +51,18 @@ const handleBackspace = (e) => {
       e.preventDefault();
     }
     setTimeout(() => {
-    isInputHandling.value = false; // Reset flag after handling input
-  }, 0);
+      isInputHandling.value = false; // Reset flag after handling input
+    }, 0);
   } else if (e.key === "Enter") {
     if (inputs.value[inputs.value.length - 1].value === "") {
       // Prevent submitting the row if the last input is empty
       return;
     } else {
-    checkWord();
-    
+      checkWord();
+    }
+  } else if (!/[a-z]/i.test(e.key)) {
+    e.preventDefault();
   }
-}
 };
 const handleInput = (e) => {
   isInputHandling.value = true; // Indicate input handling starts
@@ -100,7 +107,7 @@ const handleBlur = () => {
   }
 };
 
-onMounted( () => {
+onMounted(() => {
   watchEffect(() => {
     if (props.currentRow && inputs.value[0]) {
       inputs.value[0].focus();
@@ -109,7 +116,6 @@ onMounted( () => {
 });
 
 const inputCount = computed(() => word.value.length); // Make inputCount a computed property
-
 </script>
 
 <template>
