@@ -15,7 +15,7 @@ const props = defineProps({
 
 const word = computed(() => props.word);
 
-const emits = defineEmits(["next-row"]);
+const emits = defineEmits(["next-row", "word-correct"]);
 
 const inputs = ref([null, null, null, null, null]);
 const lastFocusedInput = ref(null); // Define lastFocusedInput here
@@ -25,17 +25,24 @@ const letterStates = ref(new Array(word.length).fill("")); // Initialize with em
 
 const checkWord = () => {
   const inputValues = inputs.value.map((input) => input.value.toLowerCase());
+  let isCorrect = true; // Assume the word is correct initially
   for (let i = 0; i < inputValues.length; i++) {
     if (inputValues[i] === word.value[i].toLowerCase()) {
       letterStates.value[i] = "correct";
     } else if (word.value.includes(inputValues[i])) {
       letterStates.value[i] = "wrong-position";
+      isCorrect = false; // Word is not correctly guessed
     } else {
       letterStates.value[i] = "incorrect";
+      isCorrect = false; // Word is not correctly guessed
     }
   }
   isInputHandling.value = true;
   emits("next-row");
+  if (isCorrect) {
+    // Emit 'word-correct' event if the word is correctly guessed
+    emits("word-correct");
+  }
 };
 
 const handleBackspace = (e) => {
