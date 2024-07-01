@@ -5,9 +5,24 @@ let testCounter = ref(1);
 
 const word = ref([]);
 
+// Define props to accept maxAttempts
+const props = defineProps({
+  maxAttempts: {
+    type: Number,
+    required: true,
+    default: 6, // Provide a default value in case it's not passed
+  },
+  wordLength: {
+    type: Number,
+    required: true,
+    default: 5
+  }
+});
+
+
 const fetchWord = async () => {
   try {
-    const response = await fetch('https://random-word-api.herokuapp.com/word?length=5');
+    const response = await fetch(`https://random-word-api.herokuapp.com/word?length=${props.wordLength}`);
     if (!response.ok) {
       throw new Error('Failed to fetch the word');
     }
@@ -25,14 +40,6 @@ onMounted(() => {
   fetchWord();
 });
 
-// Define props to accept maxAttempts
-const props = defineProps({
-  maxAttempts: {
-    type: Number,
-    required: true,
-    default: 5 // Provide a default value in case it's not passed
-  }
-});
 </script>
 
 <template>

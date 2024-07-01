@@ -5,7 +5,14 @@ import Game from './components/Game.vue'
 
 const routes = [
     { path: '/', component: Options },
-    { path: '/game/:maxAttempts', component: Game, props: route => ({ maxAttempts: Number(route.params.maxAttempts) }) },
+    {
+        path: '/game',
+        component: Game,
+        props: route => ({
+            maxAttempts: Number(route.query.maxAttempts),
+            wordLength: Number(route.query.wordLength)
+        })
+    },
 ]
 
 const router = createRouter({

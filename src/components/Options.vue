@@ -20,7 +20,17 @@
           type="number"
           v-model.number="maxAttempts"
           id="maxAttempts"
-          min="1"
+          min="3"
+          max="10"
+        />
+      </div>
+      <div class="form-group">
+        <label for="maxAttempts">Word length:</label>
+        <input
+          type="number"
+          v-model.number="wordLength"
+          id="wordLength"
+          min="5"
           max="10"
         />
       </div>
@@ -36,13 +46,14 @@ import { useRouter } from "vue-router"; // Step 1: Import useRouter
 const difficulties = ["Easy", "Medium", "Hard"];
 const selectedDifficulty = ref("Easy"); // Default selection
 const maxAttempts = ref(6); // Default max attempts
+const wordLength = ref(5); // Default word length
 
 const router = useRouter(); // Step 2: Use useRouter to get the router instance
 
 function updateOptions() {
   // Here you would typically update the store or emit an event with the new options
   console.log("Options Updated:", selectedDifficulty.value, maxAttempts.value);
-  router.push(`/game/${maxAttempts.value}`);
+  router.push(`/game?maxAttempts=${maxAttempts.value}&wordLength=${wordLength.value}`);
 }
 </script>
 
