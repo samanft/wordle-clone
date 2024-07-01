@@ -88,7 +88,8 @@ const handleInput = (e) => {
     }
   } else if (e.target.value.length === 0 && index > 0) {
     // If the input is cleared, focus the previous input
-    inputs.value[index - 1].focus();
+    console.log('test')
+    // inputs.value[index - 1].focus();
   }
 
   setTimeout(() => {
