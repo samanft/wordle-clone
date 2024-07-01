@@ -21,6 +21,7 @@
           v-model.number="maxAttempts"
           id="maxAttempts"
           min="1"
+          max="10"
         />
       </div>
       <button type="submit">Save Options</button>
