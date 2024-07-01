@@ -1,9 +1,12 @@
 <script setup>
-import { ref, onMounted, defineProps, defineEmits, watchEffect } from "vue";
+import { ref, onMounted, defineProps, defineEmits, watchEffect, computed } from "vue";
 
 const props = defineProps({
   currentRow: Boolean,
+  word: Array
 });
+
+const word = computed(() => props.word);
 
 const emits = defineEmits(["next-row"]);
 
@@ -11,15 +14,16 @@ const inputs = ref([null, null, null, null, null]);
 const lastFocusedInput = ref(null); // Define lastFocusedInput here
 const isInputHandling = ref(false); // Flag to indicate input handling operation
 
-const word = ["b", "e", "a", "r", "d"];
+
 const letterStates = ref(new Array(word.length).fill("")); // Initialize with empty states
 
 const checkWord = () => {
   const inputValues = inputs.value.map((input) => input.value.toLowerCase());
+  console.log(word.value)
   for (let i = 0; i < inputValues.length; i++) {
-    if (inputValues[i] === word[i].toLowerCase()) {
+    if (inputValues[i] === word.value[i].toLowerCase()) {
       letterStates.value[i] = "correct";
-    } else if (word.includes(inputValues[i])) {
+    } else if (word.value.includes(inputValues[i])) {
       letterStates.value[i] = "wrong-position";
     } else {
       letterStates.value[i] = "incorrect";
@@ -90,15 +94,18 @@ const handleBlur = () => {
   }
 };
 
-onMounted(() => {
+onMounted( () => {
   watchEffect(() => {
+    console.log(props.word); // This will log the word prop whenever it changes
+    console.log('ahllo')
     if (props.currentRow && inputs.value[0]) {
       inputs.value[0].focus();
     }
   });
 });
 
-const inputCount = word.length;
+const inputCount = computed(() => word.value.length); // Make inputCount a computed property
+
 </script>
 
 <template>
