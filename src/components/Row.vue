@@ -16,9 +16,9 @@ const word = ["b", "e", "a", "r", "d"];
 const letterStates = ref(new Array(word.length).fill("")); // Initialize with empty states
 
 const checkWord = () => {
-  const inputValues = inputs.value.map((input) => input.value);
+  const inputValues = inputs.value.map((input) => input.value.toLowerCase());
   for (let i = 0; i < inputValues.length; i++) {
-    if (inputValues[i] === word[i]) {
+    if (inputValues[i] === word[i].toLowerCase()) {
       letterStates.value[i] = "correct";
     } else if (word.includes(inputValues[i])) {
       letterStates.value[i] = "wrong-position";
