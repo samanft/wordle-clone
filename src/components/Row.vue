@@ -11,7 +11,6 @@ const inputs = ref([null, null, null, null, null]);
 const lastFocusedInput = ref(null); // Define lastFocusedInput here
 const isInputHandling = ref(false); // Flag to indicate input handling operation
 
-
 const word = ["b", "e", "a", "r", "d"];
 const letterStates = ref(new Array(word.length).fill("")); // Initialize with empty states
 
@@ -28,44 +27,65 @@ const checkWord = () => {
   }
 };
 
+const handleBackspace = (e) => {
+  if (e.key === "Backspace" && e.target.value === "") {
+    isInputHandling.value = true; // Indicate input handling starts
+    const index = inputs.value.findIndex((input) => input === e.target);
+    if (index > 0) {
+      // Focus the previous input
+      inputs.value[index - 1].focus();
+      // Clear the previous input
+      inputs.value[index - 1].value = "";
+      // Prevent the default backspace action to avoid navigating back in history
+      e.preventDefault();
+    }
+    setTimeout(() => {
+    isInputHandling.value = false; // Reset flag after handling input
+  }, 0);
+  }
+};
 const handleInput = (e) => {
   isInputHandling.value = true; // Indicate input handling starts
 
-  if (!e.key.match(/^[a-zA-Z]$/) && e.key !== "Backspace") {
-    e.preventDefault();
-    isInputHandling.value = false; // Reset flag if input is prevented
-    return;
+  const index = inputs.value.findIndex((input) => input === e.target);
+  const currentValue = e.target.value;
+
+  // Clear the input if more than one character is entered, or move to the next input
+  if (currentValue.length > 1) {
+    // This assumes users are typing fast and might input multiple characters in one event
+    // It keeps the last character, simulating fast typing
+    e.target.value = currentValue.charAt(currentValue.length - 1);
   }
 
-  const index = inputs.value.findIndex((input) => input === e.target);
   if (e.target.value.length === 1) {
-    if (index === inputs.value.length - 1) {
-      isInputHandling.value = true; // Reset flag if input is prevented
-      console.log(isInputHandling.value)
-      checkWord();
-      console.log(isInputHandling.value)
-      emits("next-row");
-    } else {
+    if (index < inputs.value.length - 1) {
+      // Focus the next input if the current one is filled
       inputs.value[index + 1].focus();
+    } else if (index === inputs.value.length - 1) {
+      // Last input filled, trigger word check
+      checkWord();
+      emits("next-row");
     }
-  } else if (index > 0) {
+  } else if (e.target.value.length === 0 && index > 0) {
+    // If the input is cleared, focus the previous input
     inputs.value[index - 1].focus();
-    inputs.value[index - 1].value = "";
   }
 
   setTimeout(() => {
-  isInputHandling.value = false; // Reset flag after handling input
-}, 0);};
+    isInputHandling.value = false; // Reset flag after handling input
+  }, 0);
+};
 
 const handleFocus = (e) => {
   lastFocusedInput.value = e.target; // Update last focused input on focus
 };
 
 const handleBlur = () => {
-  console.log(isInputHandling.value)
-  if (!isInputHandling.value) { // Only refocus if not handling input
-    console.log(isInputHandling.value)
-    console.log('refocus')
+  console.log(isInputHandling.value);
+  if (!isInputHandling.value) {
+    // Only refocus if not handling input
+    console.log(isInputHandling.value);
+    console.log("refocus");
     lastFocusedInput.value?.focus();
   }
 };
@@ -88,7 +108,8 @@ const inputCount = word.length;
       :key="index"
       type="text"
       maxlength="1"
-      @keyup="handleInput"
+      @input="handleInput"
+      @keydown="handleBackspace"
       @focus="handleFocus"
       @blur="handleBlur"
       :ref="(el) => (inputs[index - 1] = el)"
