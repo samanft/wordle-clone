@@ -41,17 +41,16 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router"; // Step 1: Import useRouter
+import { useRouter } from "vue-router";
 
 const difficulties = ["Easy", "Medium", "Hard"];
-const selectedDifficulty = ref("Easy"); // Default selection
-const maxAttempts = ref(6); // Default max attempts
-const wordLength = ref(5); // Default word length
+const selectedDifficulty = ref("Easy");
+const maxAttempts = ref(6);
+const wordLength = ref(5);
 
-const router = useRouter(); // Step 2: Use useRouter to get the router instance
+const router = useRouter();
 
 function updateOptions() {
-  // Here you would typically update the store or emit an event with the new options
   console.log("Options Updated:", selectedDifficulty.value, maxAttempts.value);
   router.push(`/game?maxAttempts=${maxAttempts.value}&wordLength=${wordLength.value}`);
 }

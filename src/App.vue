@@ -1,8 +1,3 @@
-<!-- <script setup>
-import Game from "./components/Game.vue";
-import Options from "./components/Options.vue";
-</script> -->
-
 <template>
   <div>
     <RouterView />
