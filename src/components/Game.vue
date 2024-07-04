@@ -14,7 +14,13 @@ const props = defineProps({
     type: Number,
     default: 5,
   },
+  selectedDifficulty: {
+    type: String,
+    default: "Easy",
+  },
 });
+
+console.log("Props:", props);
 
 const fetchWord = async () => {
   try {
@@ -42,7 +48,8 @@ let gameOverTriggered = false;
 
 const handleWordCorrect = () => {
   gameOverTriggered = true;
-  setTimeout(() => { // setTimeout added to ensure the alert is shown after the character color updates
+  // setTimeout added to ensure the alert is shown after the character color updates
+  setTimeout(() => {
     alert("Word correct!");
   }, 0);
 };
@@ -50,13 +57,14 @@ const handleWordCorrect = () => {
 const handleNextRow = () => {
   currentAttempt.value++;
   if (currentAttempt.value === props.maxAttempts + 1) {
-      setTimeout(() => { // setTimeout added to prevent the alert from being triggered if the word is correct on the last attempt
-        if (!gameOverTriggered) {
-          alert("Game over!");
-        }
-      }, 0);
-    }
-  };
+    // setTimeout added to prevent the alert from being triggered if the word is correct on the last attempt
+    setTimeout(() => {
+      if (!gameOverTriggered) {
+        alert("Game over!");
+      }
+    }, 0);
+  }
+};
 </script>
 
 <template>
@@ -69,6 +77,7 @@ const handleNextRow = () => {
       @word-correct="handleWordCorrect"
       :currentRow="index === currentAttempt"
       :word="word"
+      :selectedDifficulty="props.selectedDifficulty"
     />
   </div>
 </template>

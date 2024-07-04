@@ -10,7 +10,8 @@ const routes = [
         component: Game,
         props: route => ({
             maxAttempts: Number(route.query.maxAttempts),
-            wordLength: Number(route.query.wordLength)
+            wordLength: Number(route.query.wordLength),
+            selectedDifficulty: route.query.difficulty
         })
     },
 ]

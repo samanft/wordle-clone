@@ -43,7 +43,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-const difficulties = ["Easy", "Medium", "Hard"];
+const difficulties = ["Easy", "Medium (green hints turn into yellow)", "Hard (green hints only)"];
 const selectedDifficulty = ref("Easy");
 const maxAttempts = ref(6);
 const wordLength = ref(5);
@@ -52,7 +52,7 @@ const router = useRouter();
 
 function updateOptions() {
   console.log("Options Updated:", selectedDifficulty.value, maxAttempts.value);
-  router.push(`/game?maxAttempts=${maxAttempts.value}&wordLength=${wordLength.value}`);
+  router.push(`/game?maxAttempts=${maxAttempts.value}&wordLength=${wordLength.value}&difficulty=${selectedDifficulty.value}`);
 }
 </script>
 

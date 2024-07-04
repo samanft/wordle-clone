@@ -11,7 +11,10 @@ import {
 const props = defineProps({
   currentRow: Boolean,
   word: Array,
+  selectedDifficulty: String,
 });
+
+console.log("Props:", props);
 
 const word = computed(() => props.word);
 
@@ -72,7 +75,8 @@ const handleInput = (e) => {
   const index = inputs.value.findIndex((input) => input === e.target);
   const currentValue = e.target.value;
 
-  if (currentValue.length > 1) { // If statement here might be unneccesary, might remove
+  if (currentValue.length > 1) {
+    // If statement here might be unneccesary, might remove
     e.target.value = currentValue.charAt(currentValue.length - 1);
   }
 
@@ -105,7 +109,7 @@ onMounted(() => {
   });
 });
 
-const inputCount = computed(() => word.value.length); // Make inputCount a computed property so it updates after it receives the word from the API
+const inputCount = computed(() => word.value.length); // Made inputCount a computed property so it updates after it receives the word from the API
 </script>
 
 <template>
@@ -120,7 +124,10 @@ const inputCount = computed(() => word.value.length); // Make inputCount a compu
       @focus="handleFocus"
       @blur="handleBlur"
       :ref="(el) => (inputs[index - 1] = el)"
-      :class="letterStates[index - 1]"
+      :class="[
+        letterStates[index - 1],
+        props.selectedDifficulty.split(' ')[0].toLowerCase(),
+      ]"
       :aria-label="`Letter ${index}`"
     />
   </div>
@@ -142,15 +149,17 @@ input[type="text"] {
   outline: none;
 }
 
-input[type="text"].incorrect {
+input[type="text"].incorrect,
+input[type="text"].wrong-position.hard {
   background-color: #3a3a3c;
 }
 
-input[type="text"].wrong-position {
+input[type="text"].correct.medium,
+input[type="text"].wrong-position:not(.hard) {
   background-color: #b59f3b;
 }
 
-input[type="text"].correct {
+input[type="text"].correct:not(.medium) {
   background-color: #538d4e;
 }
 
