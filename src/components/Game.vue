@@ -60,7 +60,7 @@ const handleNextRow = () => {
     // setTimeout added to prevent the alert from being triggered if the word is correct on the last attempt
     setTimeout(() => {
       if (!gameOverTriggered) {
-        alert("Game over!");
+        alert("Game over! The word is: " + word.value.join(""));
       }
     }, 0);
   }
