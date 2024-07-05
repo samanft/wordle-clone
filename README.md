@@ -38,3 +38,6 @@ Contributions are welcome! If you have ideas for new features or improvements, f
 ## License
 
 This project is open-source and available under the MIT License.
+
+## Preview video
+https://github.com/samanft/wordle-clone/assets/25375434/3906a9b3-3753-44fa-8dfa-54d461a30e01
