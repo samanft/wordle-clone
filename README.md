@@ -22,7 +22,7 @@ Play the game online at [Kwon's Wordle](https://kwons-wordle.netlify.app/).
 ## Technologies Used
 
 - **Vue.js**: A progressive JavaScript framework used for building the user interface.
-- **CSS**: For styling the components and ensuring a responsive design.
+- **CSS**: For styling the components.
 
 ## Project Structure
 
