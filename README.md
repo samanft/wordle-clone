@@ -7,7 +7,6 @@ A Vue.js-based clone of the popular word-guessing game, Wordle. This project aim
 - **Dynamic Word Length**: Customize the length of the word to guess, making the game easier or harder.
 - **Adjustable Attempts**: Set the maximum number of attempts to guess the word.
 - **Difficulty Levels**: Choose a difficulty level to change the game's challenge. Options include Easy, Medium (green hints turn into yellow), and Hard (green hints only).
-- **Responsive Design**: Play the game on any device, thanks to a mobile-friendly design.
 - **Real-time Feedback**: As you guess, each letter provides immediate feedback indicating if it's in the correct position, present in the word but in the wrong position, or not in the word at all.
 
 ## Components
